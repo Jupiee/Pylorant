@@ -1,0 +1,36 @@
+username: tuntuna2
+tag: 8609
+region: eu
+account level: 21
+rank: Diamond 1
+
+username: tuntuna
+tag: 3121
+region: eu
+account level: 22
+rank: Diamond 1
+
+username: tuntuna6
+tag: 3820
+region: eu
+account level: 23
+rank: Platinum 2
+
+username: tuntuna4
+tag: 9094
+region: eu
+account level: 21
+rank: Diamond 1
+
+username: Bruce
+tag: 6800
+region: eu
+account level: 21
+rank: Diamond 1
+
+username: dreamcast
+tag: SRK
+region: eu
+account level: 37
+rank: Immortal 1
+
