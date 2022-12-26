@@ -2,5 +2,5 @@
 .DS_store
 
 .env
-.databook
-.test4
+.databook.txt
+.test4.xlsx
