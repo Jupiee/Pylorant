@@ -4,3 +4,4 @@
 .env
 .databook.txt
 .test4.xlsx
+.__pycache__
