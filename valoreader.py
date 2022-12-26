@@ -45,12 +45,11 @@ class Valoreader:
 
         for i in file:
 
-            if i[0] != None:
-                self.sendCreds(i[0].value, i[1].value)
-                data= self.retrieveInfo()
+            self.sendCreds(i[0].value, i[1].value)
+            data= self.retrieveInfo()
 
-                if data != "wrong credentials or Api is currently down":
-                    self.writeData(data)
+            if data != "wrong credentials or Api is currently down":
+                self.writeData(data)
 
         self.closeDataBook()
 
