@@ -13,17 +13,25 @@ class Valoreader:
 
     def __init__(self, file):
 
+        '''
+
+        file: File path of excel sheet
+        db: Instance for text file, Default set to None
+        driver: driver path for chrome driver
+
+        '''
+
         self._file= file
         self._db= None
         self._driver= webdriver.Chrome(str(os.getenv("PATH")))
 
-    def openDataBook(self):
+    def openDataBook(self) -> None:
 
         '''Opens/Creates a text file'''
 
         self._db= open("databook.txt", "a+")
 
-    def writeData(self, data):
+    def writeData(self, data) -> None:
         
         '''Writes data in the text file in the format of:
 
@@ -33,31 +41,30 @@ class Valoreader:
             account level: 
             rank:
 
-        
         '''
 
         self._db.write(f"username: {data[0]}\ntag: {data[1]}\nregion: {data[2]}\naccount level: {data[3]}\nrank: {data[4]}\n\n")
 
-    def closeDataBook(self):
+    def closeDataBook(self) -> None:
 
         '''Closes the text file'''
 
         self._db.close()
 
-    def openfile(self):
+    def openfile(self) -> None:
 
         '''Loads the excel file and opens its active sheet and sends the active file to checkData method'''
 
         efile= load_workbook(self._file).active
         self.checkData(efile)
         
-    def openWebsite(self):
+    def openWebsite(self) -> None:
 
-        '''Starts up with Chrome driver with riot site'''
+        '''Starts up the Chrome driver with riot site'''
 
         self._driver.get(str(os.getenv("URL")))
 
-    def checkData(self, file):
+    def checkData(self, file) -> None:
 
         '''Opens the text file and iterates over the data in excel file for checking and writing in text file'''
 
@@ -74,7 +81,7 @@ class Valoreader:
         self.closeDataBook()
 
 
-    def sendCreds(self, username, password):
+    def sendCreds(self, username, password) -> None:
 
         '''Waits for elements to load and sends username and password to login to the website'''
 
@@ -91,7 +98,7 @@ class Valoreader:
             
             pass
 
-    def retrieveInfo(self):
+    def retrieveInfo(self) -> tuple:
         
         '''Waits for elements to load and scrapes in-game name and tag, sends those into riot Api and returns In-game name, Tag, Region, Account level and Rank'''
 
@@ -117,7 +124,7 @@ class Valoreader:
 
             return "wrong credentials or Api is currently down"
 
-    def __getitem__(self, ign, tag):
+    def __getitem__(self, ign, tag) -> tuple:
 
         '''Sends in-game name and tag into riot Api for Get request and returns Region, Account level and Rank'''
 
