@@ -19,27 +19,47 @@ class Valoreader:
 
     def openDataBook(self):
 
+        '''Opens/Creates a text file'''
+
         self._db= open("databook.txt", "a+")
 
     def writeData(self, data):
         
+        '''Writes data in the text file in the format of:
+
+            username: 
+            tag:
+            region:
+            account level: 
+            rank:
+
+        
+        '''
+
         self._db.write(f"username: {data[0]}\ntag: {data[1]}\nregion: {data[2]}\naccount level: {data[3]}\nrank: {data[4]}\n\n")
 
     def closeDataBook(self):
+
+        '''Closes the text file'''
 
         self._db.close()
 
     def openfile(self):
 
+        '''Loads the excel file and opens its active sheet and sends the active file to checkData method'''
+
         efile= load_workbook(self._file).active
-        print(efile)
         self.checkData(efile)
         
     def openWebsite(self):
 
+        '''Starts up with Chrome driver with riot site'''
+
         self._driver.get(str(os.getenv("URL")))
 
     def checkData(self, file):
+
+        '''Opens the text file and iterates over the data in excel file for checking and writing in text file'''
 
         self.openDataBook()
 
@@ -55,7 +75,9 @@ class Valoreader:
 
 
     def sendCreds(self, username, password):
-        
+
+        '''Waits for elements to load and sends username and password to login to the website'''
+
         try:
             WebDriverWait(self._driver, 5).until(EC.presence_of_element_located((By.NAME, "username")))
             WebDriverWait(self._driver, 5).until(EC.presence_of_element_located((By.NAME, "password")))
@@ -71,6 +93,8 @@ class Valoreader:
 
     def retrieveInfo(self):
         
+        '''Waits for elements to load and scrapes in-game name and tag, sends those into riot Api and returns In-game name, Tag, Region, Account level and Rank'''
+
         try:
             
             WebDriverWait(self._driver, 13).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[data-testid="riot-id__riotId"]')))
@@ -94,6 +118,8 @@ class Valoreader:
             return "wrong credentials or Api is currently down"
 
     def __getitem__(self, ign, tag):
+
+        '''Sends in-game name and tag into riot Api for Get request and returns Region, Account level and Rank'''
 
         api1= requests.get(url= f"https://api.henrikdev.xyz/valorant/v1/account/{ign}/{tag}").json()
         api2= requests.get(url= f"https://api.henrikdev.xyz/valorant/v1/mmr-history/{api1['data']['region']}/{ign}/%23{tag}").json()
