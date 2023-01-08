@@ -16,8 +16,6 @@ class Valoreader:
         '''
 
         file: File path of excel sheet
-        db: Instance for text file, Default set to None
-        driver: driver path for chrome driver
 
         '''
 
@@ -33,15 +31,7 @@ class Valoreader:
 
     def writeData(self, data) -> None:
         
-        '''Writes data in the text file in the format of:
-
-            username: 
-            tag:
-            region:
-            account level: 
-            rank:
-
-        '''
+        '''Writes data in the text file'''
 
         self._db.write(f"username: {data[0]}\ntag: {data[1]}\nregion: {data[2]}\naccount level: {data[3]}\nrank: {data[4]}\n\n")
 
@@ -75,7 +65,7 @@ class Valoreader:
             self.sendCreds(i[0].value, i[1].value)
             data= self.retrieveInfo()
 
-            if data != "wrong credentials or Api is currently down":
+            if data != -1:
                 self.writeData(data)
 
         self.closeDataBook()
@@ -86,9 +76,9 @@ class Valoreader:
         '''Waits for elements to load and sends username and password to login to the website'''
 
         try:
-            WebDriverWait(self._driver, 5).until(EC.presence_of_element_located((By.NAME, "username")))
-            WebDriverWait(self._driver, 5).until(EC.presence_of_element_located((By.NAME, "password")))
-            WebDriverWait(self._driver, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button[title="Sign In"]')))
+            usernameelm= WebDriverWait(self._driver, 5).until(EC.presence_of_element_located((By.NAME, "username")))
+            passelm= WebDriverWait(self._driver, 5).until(EC.presence_of_element_located((By.NAME, "password")))
+            signin_elm= WebDriverWait(self._driver, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button[title="Sign In"]')))
 
             self._driver.find_element(By.NAME, "username").send_keys(username)
             self._driver.find_element(By.NAME, "password").send_keys(password)
@@ -104,8 +94,8 @@ class Valoreader:
 
         try:
             
-            WebDriverWait(self._driver, 13).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[data-testid="riot-id__riotId"]')))
-            WebDriverWait(self._driver, 13).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[data-testid="riot-id__tagline"]')))
+            riotidelm= WebDriverWait(self._driver, 13).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[data-testid="riot-id__riotId"]')))
+            riottagelm= WebDriverWait(self._driver, 13).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[data-testid="riot-id__tagline"]')))
 
             ign= self._driver.find_element(By.CSS_SELECTOR, 'input[data-testid="riot-id__riotId"]').get_attribute("value")
             tag= self._driver.find_element(By.CSS_SELECTOR, 'input[data-testid="riot-id__tagline"]').get_attribute("value")
@@ -122,7 +112,7 @@ class Valoreader:
 
         except:
 
-            return "wrong credentials or Api is currently down"
+            return -1
 
     def __getitem__(self, ign, tag) -> tuple:
 
