@@ -53,6 +53,7 @@ class Valoreader:
         '''Starts up the Chrome driver with riot site'''
 
         self._driver.get(str(os.getenv("URL")))
+        self._driver.maximize_window()
 
     def checkData(self, file) -> None:
 
